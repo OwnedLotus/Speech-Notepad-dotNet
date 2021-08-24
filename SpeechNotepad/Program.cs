@@ -5,13 +5,11 @@ using System.Threading;
 
 [assembly: System.Runtime.Versioning.SupportedOSPlatform("windows10.0.17763.0")]
 
-string[] userInput = null;
-
-string word = null;
-
 Choices choices = new Choices(new string[] { "Start", "Testing", "Save", "Quit", "Read" , "Repeat" });
 SpeechRecognitionEngine engine = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
 Grammar grammar = new Grammar(new GrammarBuilder (choices));
+
+string[] userInput = new string[] { };
 
 engine.LoadGrammarAsync(grammar);
 
@@ -26,10 +24,6 @@ while (true)
 {
     Console.ReadLine();
 }
-
-
-
-
 
 static void Engine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
 {
@@ -58,6 +52,8 @@ static void Engine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
 
 static void StartNotepad()
 {
+    System.Console.WriteLine("Press any button to quit!");
+
     using (SpeechRecognitionEngine recognizer =
         new SpeechRecognitionEngine(
             new System.Globalization.CultureInfo("en-US")))
@@ -72,12 +68,14 @@ static void StartNotepad()
 
         while (true)
         {
-            Console.ReadLine();
+            Console.ReadKey();
+
+            
         }
     }
 }
 
 static void Recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-{ 
-
+{
+    Console.WriteLine(e.Result.Text);
 }
